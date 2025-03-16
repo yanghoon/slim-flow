@@ -60,6 +60,17 @@ etc/
 1 directory, 1 file
 ```
 
+#### with DBeaver
+
+* JDBC URL : jdbc:trino://localhost:8080/local/default
+* Username : admin
+* Password : `<none>` [Trino - Auth](https://github.com/trinodb/trino/discussions/14704#discussioncomment-6685408)
+
+```sql
+CREATE TABLE test ( id INT, name STRING, age INT);
+INSERT INTO test VALUES (1, 'hoon.yang', 39);
+SELECT * FROM test;
+```
 
 #### with Hive Server (Beeline)
 
@@ -99,6 +110,25 @@ SELECT * FROM test;
 CREATE TABLE test_1 (id INT, name STRING, age INT) ROW FORMAT DELIMITED FIELDS TERMINATED BY ',' STORED AS TEXTFILE LOCATION '/opt/hive/data/warehouse/test_1.csv';
 INSERT INTO test_1 VALUES (1, 'hoon.yang', 39);
 SELECT * FROM test_1;
+```
+
+## on Podman
+
+```bash
+podman compose up
+
+# + Install Podman
+# podman machine reset
+# podman machine init
+# 
+# podman machine start
+# podman machine list
+# 
+# podman version
+
+# + Install Podman and Podman Compose
+# + Install Docker Compose
+# podman compose up
 ```
 
 ## References

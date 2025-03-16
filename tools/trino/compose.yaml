@@ -19,7 +19,7 @@ services:
       - S3_AWS_ACCESS_KEY=${S3_AWS_ACCESS_KEY}
       - S3_AWS_SECRET_KEY=${S3_AWS_SECRET_KEY}
     volumes:
-      - ./etc/catalog/s3.properties:/etc/trino/catalog/s3.properties
+      - ./etc/catalog/local.properties:/etc/trino/catalog/local.properties
       - warehouse:/warehouse
       # - warehouse:/opt/hive/data/warehouse
       # - ./etc/catalog/local.properties:/etc/trino/catalog/local.properties

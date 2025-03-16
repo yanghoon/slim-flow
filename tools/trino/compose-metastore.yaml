@@ -51,24 +51,24 @@ services:
     # networks:
     #   - hive
 
-  hiveserver2:
-    image: apache/hive:${HIVE_VERSION}
-    depends_on:
-      - metastore
-    # restart: unless-stopped
-    # container_name: hiveserver2
-    environment:
-      HIVE_SERVER2_THRIFT_PORT: 10000
-      SERVICE_OPTS: -Xmx1G -Dhive.metastore.uris=thrift://metastore:9083
-      IS_RESUME: true
-      SERVICE_NAME: hiveserver2
-    ports:
-      - 10000:10000
-      - 10002:10002
-    volumes:
-      - warehouse:/opt/hive/data/warehouse
-  #   networks:
-  #     - hive
+  # hiveserver2:
+  #   image: apache/hive:${HIVE_VERSION}
+  #   depends_on:
+  #     - metastore
+  #   # restart: unless-stopped
+  #   # container_name: hiveserver2
+  #   environment:
+  #     HIVE_SERVER2_THRIFT_PORT: 10000
+  #     SERVICE_OPTS: -Xmx1G -Dhive.metastore.uris=thrift://metastore:9083
+  #     IS_RESUME: true
+  #     SERVICE_NAME: hiveserver2
+  #   ports:
+  #     - 10000:10000
+  #     - 10002:10002
+  #   volumes:
+  #     - warehouse:/opt/hive/data/warehouse
+  # #   networks:
+  # #     - hive
 
 volumes:
   hive-db:
