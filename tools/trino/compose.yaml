@@ -1,0 +1,26 @@
+# version: '3.3'
+
+include:
+  - compose-metastore.yaml
+
+services:
+  trino:
+    # https://github.com/trinodb/trino/tree/master/core/docker
+    image: trinodb/trino:latest
+    depends_on:
+      - metastore
+    ports:
+      - 8080:8080
+    extra_hosts:
+      - local:host-gateway
+    environment:
+      # create .env file
+      - S3_ENDPOINT=${S3_ENDPOINT}
+      - S3_AWS_ACCESS_KEY=${S3_AWS_ACCESS_KEY}
+      - S3_AWS_SECRET_KEY=${S3_AWS_SECRET_KEY}
+    volumes:
+      - ./etc/catalog/s3.properties:/etc/trino/catalog/s3.properties
+      - warehouse:/warehouse
+      # - warehouse:/opt/hive/data/warehouse
+      # - ./etc/catalog/local.properties:/etc/trino/catalog/local.properties
+      # - ./data:/data
