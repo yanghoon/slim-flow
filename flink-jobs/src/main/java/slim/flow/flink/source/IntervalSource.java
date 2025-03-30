@@ -8,8 +8,6 @@ import org.apache.flink.api.connector.source.SplitEnumerator;
 import org.apache.flink.api.connector.source.SplitEnumeratorContext;
 import org.apache.flink.core.io.SimpleVersionedSerializer;
 
-import slim.flow.flink.source.base.StatelessSerializer;
-
 public class IntervalSource implements Source<Long, Stateless, Stateless>
 // UnboundednessSource<Long, NoDataSplit, NoDataCheckPoint>
 {
@@ -21,7 +19,7 @@ public class IntervalSource implements Source<Long, Stateless, Stateless>
 
     @Override
     public SimpleVersionedSerializer<Stateless> getSplitSerializer() {
-        return StatelessSerializer.create();
+        return Stateless.serializer();
     }
 
     @Override

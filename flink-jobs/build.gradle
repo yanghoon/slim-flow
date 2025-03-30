@@ -56,9 +56,15 @@ dependencies {
     // --------------------------------------------------------------
     implementation "org.apache.flink:flink-streaming-java:${flinkVersion}"
     implementation "org.apache.flink:flink-clients:${flinkVersion}"
+    implementation "org.apache.flink:flink-connector-base:${flinkVersion}"
 
     // Utils
     implementation "org.apache.commons:commons-lang3:3.17.0"
+
+    // REST Client
+    implementation "io.github.openfeign:feign-core:13.5"
+    implementation "io.github.openfeign:feign-gson:13.5"
+    // implementation "io.github.openfeign:feign-slf4j:13.5"
 
     // --------------------------------------------------------------
     // Dependencies that should be part of the shadow jar, e.g.
