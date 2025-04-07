@@ -1,0 +1,21 @@
+
+# org.apache.flink.fs.s3hadoop.common.HadoopConfigLoader
+# org.apache.hadoop.fs.s3a.S3AUtils.getAWSAccessKeys()
+# flink.hadoop.fs.s3a.endpoint: http://localhost:9000
+# flink.hadoop.fs.s3a.access.key: minio
+# flink.hadoop.fs.s3a.secret.key: miniosecret
+# flink.hadoop.fs.s3a.path.style.access: true
+# flink.hadoop.hadoop.security.sensitive-config-keys: ""
+# s3.endpoint: http://localhost:9000
+# s3.access.key: minio
+# s3.secret.key: miniosecret
+# s3.path.style.access: true
+# fs.s3a.endpoint: http://localhost:9000
+# fs.s3a.access.key: minio
+# fs.s3a.secret.key: miniosecret
+# fs.s3a.path.style.access: true
+
+# https://nightlies.apache.org/flink/flink-docs-stable/docs/deployment/filesystems/s3/#configure-access-credentials
+s3.endpoint: http://localhost:9000
+# s3.access-key: minio
+# s3.secret-key: miniosecret

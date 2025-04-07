@@ -12,12 +12,20 @@
     <!-- Logger Configuration -->
     <Loggers>
         <!-- Root Logger Configuration -->
-        <Root level="info">
+        <Root level="error">
             <AppenderRef ref="Console"/>
         </Root>
 
         <!-- Specific Logger Configuration -->
-        <Logger name="org.apache.flink" level="info">
+        <Logger name="org.apache.flink.fs" level="info">
+            <AppenderRef ref="Console"/>
+        </Logger>
+
+        <Logger name="org.apache.hadoop.fs" level="info">
+            <AppenderRef ref="Console"/>
+        </Logger>
+
+        <Logger name="com.amazonaws" level="trace">
             <AppenderRef ref="Console"/>
         </Logger>
         
