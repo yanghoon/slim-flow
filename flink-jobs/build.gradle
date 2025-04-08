@@ -72,11 +72,13 @@ dependencies {
     implementation "org.apache.flink:flink-connector-files:${flinkVersion}"
     implementation "org.apache.flink:flink-s3-fs-hadoop:${flinkVersion}"
     implementation 'org.apache.hadoop:hadoop-aws:3.3.1'
+    implementation 'org.apache.hadoop:hadoop-client:3.3.1'
 
     // Flink Table
     // - https://nightlies.apache.org/flink/flink-docs-master/docs/dev/configuration/overview/#flink-apis
     implementation "org.apache.flink:flink-table-api-java:${flinkVersion}"
     implementation "org.apache.flink:flink-table-runtime:${flinkVersion}"
+    implementation "org.apache.flink:flink-table-planner-loader:${flinkVersion}"
 
     // Iceberg
     // - https://iceberg.apache.org/multi-engine-support/#apache-flink

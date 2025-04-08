@@ -20,6 +20,7 @@
 # s3.access-key: minio
 # s3.secret-key: miniosecret
 
+type: iceberg
 catalog-type: rest
 uri: http://localhost:8181
 io-impl: org.apache.iceberg.aws.s3.S3FileIO
