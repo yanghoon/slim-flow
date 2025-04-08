@@ -16,6 +16,14 @@
 # fs.s3a.path.style.access: true
 
 # https://nightlies.apache.org/flink/flink-docs-stable/docs/deployment/filesystems/s3/#configure-access-credentials
-s3.endpoint: http://localhost:9000
+# s3.endpoint: http://localhost:9000
 # s3.access-key: minio
 # s3.secret-key: miniosecret
+
+catalog-type: rest
+uri: http://localhost:8181
+io-impl: org.apache.iceberg.aws.s3.S3FileIO
+s3.endpoint: http://localhost:9000
+s3.access-key-id: minio
+s3.secret-access-key: miniosecret
+s3.path-style-access: true

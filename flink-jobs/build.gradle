@@ -15,6 +15,7 @@ description = """Flink Job"""
 ext {
     // javaVersion = '1.8'
     flinkVersion = '1.20.1'
+    icebergVersion = '1.8.1'
     // scalaBinaryVersion = '_2.12'
     slf4jVersion = '1.7.36'
     log4jVersion = '2.24.1'
@@ -29,7 +30,7 @@ applicationDefaultJvmArgs = ["-Dlog4j.configurationFile=log4j2.properties"]
 // declare where to find the dependencies of your project
 repositories {
     mavenCentral()
-    // maven { url "https://repository.apache.org/content/repositories/releases" }
+    maven { url "https://repository.apache.org/content/repositories/releases" }
     maven {
         url "https://repository.apache.org/content/repositories/snapshots"
         mavenContent {
@@ -71,6 +72,17 @@ dependencies {
     implementation "org.apache.flink:flink-connector-files:${flinkVersion}"
     implementation "org.apache.flink:flink-s3-fs-hadoop:${flinkVersion}"
     implementation 'org.apache.hadoop:hadoop-aws:3.3.1'
+
+    // Flink Table
+    // - https://nightlies.apache.org/flink/flink-docs-master/docs/dev/configuration/overview/#flink-apis
+    implementation "org.apache.flink:flink-table-api-java:${flinkVersion}"
+    implementation "org.apache.flink:flink-table-runtime:${flinkVersion}"
+
+    // Iceberg
+    // - https://iceberg.apache.org/multi-engine-support/#apache-flink
+    // - https://iceberg.apache.org/docs/1.8.0/aws/#flink
+    implementation "org.apache.iceberg:iceberg-flink-runtime-1.20:${icebergVersion}"
+    implementation "org.apache.iceberg:iceberg-aws-bundle:${icebergVersion}"
 
     // --------------------------------------------------------------
     // Dependencies that should be part of the shadow jar, e.g.

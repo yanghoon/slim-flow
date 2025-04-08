@@ -11,27 +11,6 @@
             "request": "launch",
             "mainClass": "${file}"
         },
-        // {
-        //     "type": "java",
-        //     "name": "CsvFileSourceJob",
-        //     "request": "launch",
-        //     "mainClass": "slim.flow.flink.job.CsvFileSourceJob",
-        //     "projectName": "flink-jobs"
-        // },
-        // {
-        //     "type": "java",
-        //     "name": "IntervalJob",
-        //     "request": "launch",
-        //     "mainClass": "slim.flow.flink.job.IntervalJob",
-        //     "projectName": "flink-jobs"
-        // },
-        // {
-        //     "type": "java",
-        //     "name": "MainJob",
-        //     "request": "launch",
-        //     "mainClass": "slim.flow.flink.job.MainJob",
-        //     "projectName": "flink-jobs"
-        // },
         {
             "type": "java",
             "name": "S3SinkJob",
@@ -44,6 +23,14 @@
                 "AWS_ACCESS_KEY": "minio",
                 "AWS_SECRET_KEY": "miniosecret"
             }
+        },
+        {
+            "type": "java",
+            "name": "IcebergSinkJob",
+            "request": "launch",
+            "mainClass": "slim.flow.flink.job.IcebergSinkJob",
+            "projectName": "flink-jobs",
+            "vmArgs": "--add-opens=java.base/java.util=ALL-UNNAMED --add-opens=java.base/java.nio=ALL-UNNAMED --add-opens java.base/java.lang=ALL-UNNAMED"
         }
     ]
 }

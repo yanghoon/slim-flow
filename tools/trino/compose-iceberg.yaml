@@ -23,6 +23,7 @@ services:
       CATALOG_S3_ACCESS__KEY__ID: ${S3_ACCESS_KEY}
       CATALOG_S3_SECRET__ACCESS__KEY: ${S3_SECRET_KEY}
       CATALOG_S3_PATH__STYLE__ACCESS: true
+      AWS_REGION: us-east-1
 
   postgres:
     image: postgres:latest
