@@ -14,24 +14,20 @@ import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 public class S3SinkJob {
 
     public static void main(String[] args) throws Exception {
-        // System.setProperty(ConfigConstants.ENV_FLINK_CONF_DIR, "flink-jobs/bin/conf/");
-        // var conf = GlobalConfiguration.loadConfiguration("flink-jobs/bin/main/conf/");
-        // var env = StreamExecutionEnvironment.getExecutionEnvironment(conf);
         var env = StreamExecutionEnvironment.getExecutionEnvironment();
         env.setParallelism(1);
 
-        var OUT_DIR = "s3a://warehouse/csv/users_csv";
+        var outDir = "s3://warehouse/csv/users_csv";
         var source = env.fromData(
             Tuple2.of(1L, "admin"), Tuple2.of(2L, "user")
         );
         var stream = source.map(Tuple2::toString);
         var sink = FileSink.forRowFormat(
-                new Path(OUT_DIR),
+                new Path(outDir),
                 new SimpleStringEncoder<String>("UTF-8")
             )
             .build();
         
-        // var client = DummyRestClient.create();
         stream.print();
         stream.sinkTo(sink);
         
