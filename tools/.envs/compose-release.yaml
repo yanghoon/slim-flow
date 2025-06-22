@@ -1,0 +1,9 @@
+services:
+  box:
+    env_file:
+      - default.env
+      - ${RELEASE?}.env
+    environment:
+      # COMPOSE_RELEASE_YAML: 1
+      COMPOSE_FILE: ""
+      COMPOSE_ENV_FILES: ""

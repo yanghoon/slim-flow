@@ -1,0 +1,12 @@
+services:
+  box:
+    image: alpine:latest
+    command:
+      - bash
+      - -c
+      - env | sort
+    environment:
+      - VAR
+      - VAR_ENVIRONMENT=environment
+      - VAL=${VAR}
+      - VAL_ENVIRONMENT=${VAR_ENVIRONMENT}
