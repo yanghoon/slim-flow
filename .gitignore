@@ -434,3 +434,4 @@ FodyWeavers.xsd
 # Docker Compose
 tools/**/libs
 tools/**/.env
+!tools/sample/**/.env

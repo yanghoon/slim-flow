@@ -1,0 +1,7 @@
+services:
+  container:
+    env_file:
+      - production.env
+    environment:
+      - VAR_ENVIRONMENT_HARD_CODE
+      - VAR_SECRET

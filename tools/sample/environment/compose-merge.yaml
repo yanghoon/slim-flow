@@ -1,0 +1,5 @@
+services:
+  container:
+    environment:
+      - VAR_ENVIRONMENT_HARD_CODE
+      - VAR_SECRET
