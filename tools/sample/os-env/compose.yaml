@@ -1,0 +1,16 @@
+services:
+  container:
+    image: alpine:latest
+    command:
+      - sh
+      - -c
+      - env | sort | grep VAR
+    environment:
+      - VAR_SECRET=environment
+      - VAR_OS
+      - VAR_ENV_DEFAULT
+      - VAR_ENVIRONMENT_HARD_CODE=environment
+      - VAL_SECRET=${VAR_SECRET}+
+      - VAL_OS=${VAR_OS}+
+      - VAL_ENV_DEFAULT=${VAR_ENV_DEFAULT}+
+      - VAL_ENVIRONMENT_HARD_CODE=${VAR_ENVIRONMENT_HARD_CODE}+
