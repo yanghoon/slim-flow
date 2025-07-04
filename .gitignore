@@ -434,4 +434,8 @@ FodyWeavers.xsd
 # Docker Compose
 tools/**/libs
 tools/**/.env
+<<<<<<< HEAD
 !tools/sample/**/.env
+=======
+!tools/*/*/.env
+>>>>>>> 005a460 (Add Env Files to Manage and Deploy Compose for Each Environement)

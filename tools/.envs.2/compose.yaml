@@ -1,0 +1,8 @@
+services:
+  web:
+    image: alpine:latest
+    env_file: default.env
+  
+  db:
+    image: alpine:latest
+    env_file: default.env
