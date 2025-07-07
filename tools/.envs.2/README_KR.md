@@ -1,12 +1,12 @@
-# Docker Compose Environment Config
+# 환경 별 Docker Compose 구성
 
-The requirements for managing Docker Compose configurations by environment are as follows:
+환경 별 Docker Compose 구성을 관리하기 위한 요구사항은 다음과 같다.
 
-* Run Docker Compose for each environment with minimal files and commands.
-* Manage all files required for deployment with Git.
-* Exclude sensitive information such as tokens and passwords from version control.
+* 최소한의 파일과 명령어로 각 환경에 맞는 Docker Compose를 실행한다.
+* 배포에 필요한 모든 파일은 Git으로 관리한다.
+* 단 Token, Password와 같은 민감 정보는 형상 관리 대상에서 제외한다.
 
-Docker Compose and environment variable files must satisfy the following rules.
+Docker Compose, 환경변수 파일은 다음의 규칙을 만족한다.
 
 1. `compose.yaml` file has a default env file. (like `default.env` file in `env_file` attribute)
 2. `.env` file has variables that are secrets or only for local.
@@ -14,7 +14,7 @@ Docker Compose and environment variable files must satisfy the following rules.
    `.env` file is not used in any compose files.
 3. `default.env` file has variables with default value that used for local.
 4. `${environment}/.env` file has variables for specific environments.
-   `${environment}/.env` file is used at `compose-reelase.yaml` and it overwrites values in `default.env` 
+   `${environment}/.env` file is used at `compose-reelase.yaml`
 
 ## for Local
 
