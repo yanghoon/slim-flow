@@ -26,7 +26,32 @@ docker compose config
 ```
 
 ```yaml
-# TODO: OUTPUT
+# docker compose config
+name: envs2
+services:
+  db:
+    environment:
+      APP_PROFILE: default
+      APP_S3_BUCKET: maxio-bucket
+      S3_BUCKET: maxio-bucket
+      S3_ENDPOINT: http://maxio-remote:9000
+      S3_SECRET: maxio-bucket
+    image: alpine:latest
+    networks:
+      default: null
+  web:
+    environment:
+      APP_PROFILE: default
+      APP_S3_BUCKET: maxio-bucket
+      S3_BUCKET: maxio-bucket
+      S3_ENDPOINT: http://maxio-remote:9000
+      S3_SECRET: maxio-bucket
+    image: alpine:latest
+    networks:
+      default: null
+networks:
+  default:
+    name: envs2_default
 ```
 
 ## for Development
@@ -66,5 +91,64 @@ docker compose --profile worker config
 ```
 
 ```yaml
-# TODO: OUTPUT
+# docker compose --profile master config
+name: envs2
+services:
+  db:
+    profiles:
+      - master
+    environment:
+      APP_PROFILE: dev
+      APP_S3_BUCKET: maxio-bucket
+      COMPOSE_ENV_FILES: ""
+      COMPOSE_FILE: ""
+      RELEASE: ""
+      S3_BUCKET: maxio-bucket
+      S3_ENDPOINT: http://maxio-remote:9000
+      S3_SECRET: maxio-bucket
+    image: alpine:latest
+    networks:
+      default: null
+  web:
+    profiles:
+      - master
+    environment:
+      APP_PROFILE: dev
+      APP_S3_BUCKET: maxio-bucket
+      COMPOSE_ENV_FILES: ""
+      COMPOSE_FILE: ""
+      RELEASE: ""
+      S3_BUCKET: maxio-bucket
+      S3_ENDPOINT: http://maxio-remote:9000
+      S3_SECRET: maxio-bucket
+    image: alpine:latest
+    networks:
+      default: null
+networks:
+  default:
+    name: envs2_default
+```
+
+```yaml
+# docker compose --profile worker config
+name: envs2
+services:
+  web-worker:
+    profiles:
+      - worker
+    environment:
+      APP_PROFILE: dev
+      APP_S3_BUCKET: maxio-bucket
+      COMPOSE_ENV_FILES: ""
+      COMPOSE_FILE: ""
+      RELEASE: ""
+      S3_BUCKET: maxio-bucket
+      S3_ENDPOINT: http://maxio-remote:9000
+      S3_SECRET: maxio-bucket
+    image: alpine:latest
+    networks:
+      default: null
+networks:
+  default:
+    name: envs2_default
 ```
