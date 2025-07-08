@@ -1,4 +1,9 @@
-# Docker Compose Environment Config
+# Docker Compose Multi Environment Config
+
+When deploy containers using Docker Compose, Each environment has some specific configurations and share many parts.
+(like images, variables, ports, volumes, ...)
+
+Repeats make hard to maintain compose files. So this project show patterns for them.
 
 The requirements for managing Docker Compose configurations by environment are as follows:
 
@@ -16,7 +21,9 @@ Docker Compose and environment variable files must satisfy the following rules.
 4. `${environment}/.env` file has variables for specific environments.
    `${environment}/.env` file is used at `compose-reelase.yaml` and it overwrites values in `default.env` 
 
-## for Local
+## Local
+
+Create configuration file for only loacl environment (if you need), JUST run docker compose normally. 
 
 1. Create `.env` file and write shared variables (like secrets)
 
@@ -29,7 +36,6 @@ EOF
 2. Run Docker Compose with Local Variables
 
 ```bash
-cd tools/.envs.2
 docker compose config
 ```
 
@@ -62,9 +68,15 @@ networks:
     name: envs2_default
 ```
 
-## for Development
+## Development
 
-1. Create `.env` file and write shared variables (like secrets)
+You need some files to patch some configuration of default(local).
+After create files, you just run docker compose with a small arguments.
+
+1. `${environment}/.env` : This file has overwirted environment values and some pre-defined compose variables.
+2. `compose-release.yaml` : Thie file merged `compose.yaml` with a higher priority. it is configured by the `COMPOSE_FILE` variable in the `${environment}/.env`.
+
+#### 1. Create `.env` file and write shared variables (like secrets)
 
 ```yaml
 jobs:
@@ -90,7 +102,7 @@ jobs:
         docker compose --profile ${{ matrix.profile }} config
 ```
 
-2. Run Docker Compose with Local Variables
+#### 2. Run Docker Compose with Local Variables
 
 ```bash
 cd tools/.envs.2/dev
