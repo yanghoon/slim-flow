@@ -19,7 +19,7 @@ jobs:
         id: load-host
         run: |
           cd tools/.envs.2/dev
-          echo "host=$(cat instances.json)" >> $GITHUB_OUTPUT
+          echo "host=$(cat instances.json | jq -c)" >> $GITHUB_OUTPUT
 
   deploy:
     needs: instances
