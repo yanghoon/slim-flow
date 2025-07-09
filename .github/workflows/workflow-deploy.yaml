@@ -1,0 +1,43 @@
+name: Docker Compose Config Matrix Deploy
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+  workflow_dispatch:
+
+jobs:
+  instances:
+    # name: instances
+    runs-on: ubuntu-latest
+    outputs:
+      host: ${{ steps.load-host.outputs.host }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Load Host File
+        id: load-host
+        run: |
+          cd tools/.envs.2/dev
+          echo "host=$(cat instances.json)" >> $GITHUB_OUTPUT
+
+  deploy:
+    needs: instances
+    # name: deploy
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        host: ${{ fromJson(needs.instances.outputs.host) }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Write .env file from secret
+        run: |
+          cd tools/.envs.2/dev/
+          echo "${{ secrets.ENV_SECRET }}" > .env
+
+      - name: Run Docker Compose - ${{ matrix.host.profile }}
+        run: |
+          cd tools/.envs.2/dev
+          docker compose --profile ${{ matrix.host.profile }} config
