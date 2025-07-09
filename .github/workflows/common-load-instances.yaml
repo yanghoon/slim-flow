@@ -1,0 +1,30 @@
+name: Load File (instances.json)
+
+on:
+  workflow_call:
+    inputs:
+      tool:
+        required: true
+        type: string
+      environment:
+        required: true
+        type: string
+
+jobs:
+  instances:
+    # name: instances
+    runs-on: ubuntu-latest
+    outputs:
+      host: ${{ steps.load-file.outputs.host }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - id: load-file
+        name: Load File (instances.json)
+        env:
+          TOOL: ${{ inputs.tool }}
+          ENVIRONMENT: ${{ inputs.environment }}
+        run: |
+          cd tools/${TOOL}/${ENVIRONMENT}
+          echo "host=$(cat instances.json | jq -c)" >> $GITHUB_OUTPUT

@@ -1,43 +1,55 @@
 name: Docker Compose Config Matrix Deploy
 
 on:
-  pull_request:
-    types: [opened, synchronize, reopened]
+  # pull_request:
+  #   types: [opened, synchronize, reopened]
+  push:
   workflow_dispatch:
+    inputs:
+      tool:
+        description: 'Tool'
+        required: true
+      environment:
+        description: 'Environment'
+        required: true
 
 jobs:
   instances:
     # name: instances
-    runs-on: ubuntu-latest
-    outputs:
-      host: ${{ steps.load-host.outputs.host }}
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Load Host File
-        id: load-host
-        run: |
-          cd tools/.envs.2/dev
-          echo "host=$(cat instances.json | jq -c)" >> $GITHUB_OUTPUT
+    # runs-on: ubuntu-latest
+    uses: ./.github/workflows/common-load-instances.yaml
+    with:
+      tool: ${{ inputs.tool || '.envs.2' }}
+      environment: ${{ inputs.environment || 'dev' }}
 
   deploy:
     needs: instances
     # name: deploy
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        host: ${{ fromJson(needs.instances.outputs.host) }}
+    # strategy:
+    #   matrix:
+    #     host: ${{ fromJson(needs.instances.outputs.host) }}
+    env:
+      TOOL: ${{ inputs.tool }}
+      ENVIRONMENT: ${{ inputs.environment }}
+      WORKSPACE: tools/${{ inputs.tool }}/${{ inputs.environment }}
+      # WORKSPACE: ${{ github.workspace }}/tools/${{ env.TOOL }}/${{ env.ENVIRONMENT }}
     steps:
+      - name: Print Host
+        run: |
+          echo "Host: ${{ needs.instances.outputs }}"
+          echo "Host: ${{ needs.instances.outputs.host }}"
+          echo "Host: ${{ toJson(needs.instances.outputs) }}"
+
       - name: Checkout
         uses: actions/checkout@v4
 
       - name: Write .env file from secret
+        working-directory: ${{ env.WORKSPACE }}
         run: |
-          cd tools/.envs.2/dev/
           echo "${{ secrets.ENV_SECRET }}" > .env
 
       - name: Run Docker Compose - ${{ matrix.host.profile }}
+        working-directory: ${{ env.WORKSPACE }}
         run: |
-          cd tools/.envs.2/dev
           docker compose --profile ${{ matrix.host.profile }} config
