@@ -1,0 +1,42 @@
+# https://trino.io/docs/current/object-storage/metastores.html#rest-catalog
+# https://github.com/asolovey/trino-iceberg-rest/blob/main/docker-compose.yml
+
+services:
+  iceberg-rest:
+    image: tabulario/iceberg-rest
+    depends_on:
+      - postgres
+    ports:
+      - 8181:8181
+    # command:
+    #   - sh
+    #   - -xc
+    #   - java $$JAVA_OPTS -XshowSettings:properties -version
+    environment:
+      CATALOG_WAREHOUSE: s3://warehouse/
+      CATALOG_URI: jdbc:postgresql://postgres/metastore_db
+      CATALOG_JDBC_USER: iceberg
+      CATALOG_JDBC_PASSWORD: password
+      CATALOG_IO__IMPL: org.apache.iceberg.aws.s3.S3FileIO
+      # https://github.com/databricks/iceberg-rest-image/blob/master/src/main/java/org/apache/iceberg/rest/RESTCatalogServer.java#L48-L57
+      CATALOG_S3_ENDPOINT: ${S3_ENDPOINT}
+      CATALOG_S3_ACCESS__KEY__ID: ${S3_ACCESS_KEY}
+      CATALOG_S3_SECRET__ACCESS__KEY: ${S3_SECRET_KEY}
+      CATALOG_S3_PATH__STYLE__ACCESS: true
+      AWS_REGION: us-east-1
+
+  postgres:
+    image: postgres:latest
+    environment:
+      POSTGRES_DB: metastore_db
+      POSTGRES_USER: iceberg
+      POSTGRES_PASSWORD: password
+    ports:
+      - 5432:5432
+    volumes:
+      - metastore-db:/var/lib/postgresql
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "iceberg"]
+
+volumes:
+  metastore-db:

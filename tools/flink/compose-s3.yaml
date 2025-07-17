@@ -1,0 +1,16 @@
+
+services:
+  minio:
+    image: bitnami/minio:2025
+    ports:
+      - 9000:9000
+      - 9001:9001
+    environment:
+      - MINIO_DEFAULT_BUCKETS=warehouse:public
+      # - MINIO_ROOT_USER=minio
+      # - MINIO_ROOT_PASSWORD=minio
+    volumes:
+      - minio-data:/bitnami/minio/data
+
+volumes:
+  minio-data:
