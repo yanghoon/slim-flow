@@ -63,6 +63,36 @@ s3.endpoint: https://maxio.com
 s3.path-style-access: true
 ```
 
+#### Flink JDBC Driver
+
+* https://nightlies.apache.org/flink/flink-docs-release-1.20/docs/dev/table/jdbcdriver/
+* https://github.com/apache/flink/blob/release-1.20/flink-table/flink-sql-jdbc-driver/src/main/java/org/apache/flink/table/jdbc/FlinkDriver.java
+
+```bash
+docker compose up -d sql-gateway
+```
+
+##### Configure DBeaver
+
+Download Flink JDBC Driver
+
+```bash
+curl -OL https://repo.maven.apache.org/maven2/org/apache/flink/flink-sql-jdbc-driver-bundle/1.20.2/flink-sql-jdbc-driver-bundle-1.20.2.jar
+mkdir -p lib && cp *.jar lib/
+```
+
+Dbeaver Setup
+
+1. Add Driver
+  * "Driver Manager > New" and Fill Forms
+  * Driver Name : Flink JDBC
+  * Class Name : org.apache.flink.table.jdbc.FlinkDriver
+  * Default Port : 8083
+
+2. Create Connection
+  * "New Database Connection" and Fill Forms
+  * JDBC URL : jdbc:flink://localhost:8083
+
 #### References
 
 - [Building a Local Flink Environment with Docker and Submitting Your First Job (tim santeford)](https://www.timsanteford.com/posts/building-a-local-flink-environment-with-docker-and-submitting-your-first-job/)  

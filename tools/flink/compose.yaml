@@ -14,14 +14,8 @@ services:
     command: jobmanager
     volumes:
       - ./conf/catalog:/opt/flink/conf/catalog
-    environment: &env
-      - |
-        FLINK_PROPERTIES=
-        jobmanager.rpc.address: jobmanager
-        parallelism.default: 2        
-        table.catalog-store.kind: file
-        table.catalog-store.file.path: file:///opt/flink/conf/catalog
-        env.log.level: DEBUG
+    env_file:
+      - .env.default
 
   taskmanager:
     image: flink:1.20.2
@@ -39,6 +33,23 @@ services:
         parallelism.default: 2     
         sql.catalog-store: file
         sql.catalog-store.file.directory: /opt/flink/conf/catalog
+  
+  sql-gateway:
+    image: flink:1.20.2
+    ports:
+      - 8083:8083
+    command:
+      # https://nightlies.apache.org/flink/flink-docs-release-1.20/docs/dev/table/sql-gateway/overview/#sql-gateway-startup-options
+      - bin/sql-gateway.sh
+      - start-foreground
+    depends_on:
+      - jobmanager
+    environment:
+      - |
+        FLINK_PROPERTIES=
+        jobmanager.rpc.address: jobmanager
+        rest.address: jobmanager
+        sql-gateway.endpoint.rest.address=localhost
 
   sql-client:
     image: flink:1.20.2
