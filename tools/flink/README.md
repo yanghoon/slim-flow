@@ -63,6 +63,26 @@ s3.endpoint: https://maxio.com
 s3.path-style-access: true
 ```
 
+#### SQL Gateway
+
+```bash
+docker compose up -d sql-gateway
+```
+
+```bash
+curl localhost:8083/v1/info
+```
+
+##### Download Flink JDBC Driver
+
+* [org.apache.flink.table.jdbc.FlinkDriver.java - flink-sql-jdbc-driver](https://github.com/apache/flink/blob/master/flink-table/flink-sql-jdbc-driver/src/main/java/org/apache/flink/table/jdbc/FlinkDriver.java)
+* `jdbc:flink://localhost:8083`
+
+```bash
+curl -OL https://repo.maven.apache.org/maven2/org/apache/flink/flink-sql-jdbc-driver-bundle/1.20.2/flink-sql-jdbc-driver-bundle-1.20.2.jar
+mkdir -p lib && mv *.jar lib/
+```
+
 #### References
 
 - [Building a Local Flink Environment with Docker and Submitting Your First Job (tim santeford)](https://www.timsanteford.com/posts/building-a-local-flink-environment-with-docker-and-submitting-your-first-job/)  
