@@ -75,11 +75,26 @@ curl localhost:8083/v1/info
 
 ##### Download Flink JDBC Driver
 
+* https://nightlies.apache.org/flink/flink-docs-release-1.20/docs/dev/table/jdbcdriver/
 * [org.apache.flink.table.jdbc.FlinkDriver.java - flink-sql-jdbc-driver](https://github.com/apache/flink/blob/master/flink-table/flink-sql-jdbc-driver/src/main/java/org/apache/flink/table/jdbc/FlinkDriver.java)
 * `jdbc:flink://localhost:8083`
 
 ```bash
 curl -OL https://repo.maven.apache.org/maven2/org/apache/flink/flink-sql-jdbc-driver-bundle/1.20.2/flink-sql-jdbc-driver-bundle-1.20.2.jar
+mkdir -p lib && mv *.jar lib/
+```
+
+#### Flink Iceberg
+
+* https://github.com/apache/flink/blob/release-1.20/flink-table/flink-sql-gateway/bin/sql-gateway.sh
+* https://github.com/apache/flink/blob/release-1.20/flink-dist/src/main/flink-bin/bin/config.sh
+
+```bash
+curl -OL https://repo.maven.apache.org/maven2/org/apache/iceberg/iceberg-flink-runtime-1.20/1.9.2/iceberg-flink-runtime-1.20-1.9.2.jar
+curl -OL https://repo.maven.apache.org/maven2/org/apache/hadoop/hadoop-common/3.3.1/hadoop-common-3.3.1.jar
+curl -OL https://repo.maven.apache.org/maven2/org/apache/hadoop/hadoop-hdfs/3.3.1/hadoop-hdfs-3.3.1.jar
+curl -OL https://repo.maven.apache.org/maven2/org/apache/flink/flink-s3-fs-hadoop/1.20.1/flink-s3-fs-hadoop-1.20.1.jar
+# curl -OL https://repo.maven.apache.org/maven2/org/apache/hadoop/hadoop-hdfs-client/3.3.1/hadoop-hdfs-client-3.3.1.jar
 mkdir -p lib && mv *.jar lib/
 ```
 

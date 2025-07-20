@@ -37,6 +37,8 @@ services:
         sql.catalog-store.file.directory: /opt/flink/conf/catalog
   
   sql-gateway:
+    # docker compose up -d minio iceberg-rest jobmanager
+    # docker compose up sql-gateway
     image: flink:1.20.2
     command: bin/sql-gateway.sh start-foreground
     depends_on:
@@ -45,6 +47,12 @@ services:
       - 8083:8083
     volumes:
       - ./conf/catalog:/opt/flink/conf/catalog
+      - ./lib/iceberg-flink-runtime-1.20-1.9.2.jar:/opt/flink/lib/iceberg-flink-runtime-1.20-1.9.2.jar
+      - ./lib/hadoop-common-3.3.1.jar:/opt/flink/lib/hadoop-common-3.3.1.jar
+      - ./lib/hadoop-hdfs-3.3.1.jar:/opt/flink/lib/hadoop-hdfs-3.3.1.jar
+      - ./lib/hadoop-hdfs-client-3.3.1.jar:/opt/flink/lib/hadoop-hdfs-client-3.3.1.jar
+      - ./lib/flink-s3-fs-hadoop-1.20.1.jar:/opt/flink/lib/lib/flink-s3-fs-hadoop-1.20.1.jar
+      # - ./lib:/opt/flink/plugins/iceberg
     environment:
       # https://nightlies.apache.org/flink/flink-docs-release-1.20/docs/dev/table/sql-gateway/overview/#starting-the-sql-gateway
       FLINK_PROPERTIES: |

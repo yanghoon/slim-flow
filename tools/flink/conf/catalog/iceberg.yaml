@@ -1,7 +1,11 @@
 # https://iceberg.apache.org/docs/nightly/flink-ddl/#create-catalog
+# https://iceberg.apache.org/docs/nightly/flink/#preparation-when-using-flink-sql-client
+# https://repo.maven.apache.org/maven2/org/apache/iceberg/iceberg-flink-runtime-1.20/1.9.2/
+
 type: iceberg
 catalog-type: rest
-uri: http://localhost:8181
+uri: http://iceberg-rest:8181
+# uri: http://localhost:8181
 warehouse: s3://minio/warehouse
 # rest-client.auth-type: oauth2
 # rest-client.oauth2.token-uri: https://your-auth-server/token
