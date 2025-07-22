@@ -28,13 +28,10 @@ services:
     volumes:
       - ./conf/catalog:/opt/flink/conf/catalog
     environment:
-      - |
-        FLINK_PROPERTIES=
+      FLINK_PROPERTIES: |
         jobmanager.rpc.address: jobmanager
         taskmanager.numberOfTaskSlots: 2
         parallelism.default: 2     
-        sql.catalog-store: file
-        sql.catalog-store.file.directory: /opt/flink/conf/catalog
   
   sql-gateway:
     # docker compose up -d minio iceberg-rest jobmanager
@@ -48,6 +45,7 @@ services:
     volumes:
       - ./conf/catalog:/opt/flink/conf/catalog
       - ./lib/iceberg-flink-runtime-1.20-1.9.2.jar:/opt/flink/lib/iceberg-flink-runtime-1.20-1.9.2.jar
+      - ./lib/iceberg-aws-bundle-1.9.2.jar:/opt/flink/lib/iceberg-aws-bundle-1.9.2.jar
       - ./lib/hadoop-common-3.3.1.jar:/opt/flink/lib/hadoop-common-3.3.1.jar
       - ./lib/hadoop-hdfs-3.3.1.jar:/opt/flink/lib/hadoop-hdfs-3.3.1.jar
       - ./lib/hadoop-hdfs-client-3.3.1.jar:/opt/flink/lib/hadoop-hdfs-client-3.3.1.jar

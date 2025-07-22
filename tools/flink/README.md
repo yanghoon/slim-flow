@@ -91,10 +91,11 @@ mkdir -p lib && mv *.jar lib/
 
 ```bash
 curl -OL https://repo.maven.apache.org/maven2/org/apache/iceberg/iceberg-flink-runtime-1.20/1.9.2/iceberg-flink-runtime-1.20-1.9.2.jar
+curl -OL https://repo.maven.apache.org/maven2/org/apache/iceberg/iceberg-aws-bundle/1.9.2/iceberg-aws-bundle-1.9.2.jar
 curl -OL https://repo.maven.apache.org/maven2/org/apache/hadoop/hadoop-common/3.3.1/hadoop-common-3.3.1.jar
 curl -OL https://repo.maven.apache.org/maven2/org/apache/hadoop/hadoop-hdfs/3.3.1/hadoop-hdfs-3.3.1.jar
 curl -OL https://repo.maven.apache.org/maven2/org/apache/flink/flink-s3-fs-hadoop/1.20.1/flink-s3-fs-hadoop-1.20.1.jar
-# curl -OL https://repo.maven.apache.org/maven2/org/apache/hadoop/hadoop-hdfs-client/3.3.1/hadoop-hdfs-client-3.3.1.jar
+curl -OL https://repo.maven.apache.org/maven2/org/apache/hadoop/hadoop-hdfs-client/3.3.1/hadoop-hdfs-client-3.3.1.jar
 mkdir -p lib && mv *.jar lib/
 ```
 

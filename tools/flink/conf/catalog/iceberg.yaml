@@ -7,6 +7,14 @@ catalog-type: rest
 uri: http://iceberg-rest:8181
 # uri: http://localhost:8181
 warehouse: s3://minio/warehouse
+
+# io-impl: org.apache.iceberg.aws.s3.S3FileIO
+# s3.endpoint: http://minio:9000
+# s3.access-key-id: minio
+# s3.secret-access-key: miniosecret
+# s3.path-style-access: true
+# client.region: us-east-1
+
 # rest-client.auth-type: oauth2
 # rest-client.oauth2.token-uri: https://your-auth-server/token
 # rest-client.oauth2.client-id: your-client-id
