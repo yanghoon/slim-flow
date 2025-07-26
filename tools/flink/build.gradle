@@ -1,0 +1,64 @@
+plugins {
+    id 'java'
+    id 'com.google.cloud.tools.jib' version '3.3.2'
+}
+
+group = 'com.example'
+version = '1.0.0'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.apache.iceberg:iceberg-flink-runtime-1.20:1.9.2'
+    implementation 'org.apache.iceberg:iceberg-aws-bundle:1.9.2'
+
+    implementation 'org.apache.flink:flink-s3-fs-hadoop:1.20.2'
+
+    implementation 'org.apache.hadoop:hadoop-hdfs-client:3.3.1'
+    implementation 'org.apache.hadoop:hadoop-mapreduce-client-core:3.3.1'
+}
+
+jib {
+    // ./gradlew :tools:flink:jibDockerBuild
+    // ./gradlew :tools:flink:jibBuildTar
+    // docker load -i tools/flink/build/jib-image.tar
+    // docker run --rm localhost/flink:1.20.2-iceberg bash -c "ls -alh /opt/flink/lib"
+    // docker rmi localhost/flink:1.20.2-iceberg
+    from {
+        image = 'flink:1.20.2'
+    }
+    to {
+        image = 'flink:1.20.2-iceberg'
+    }
+    container {
+    //     workingDirectory = '/opt/flink'
+        entrypoint = ['/docker-entrypoint.sh']
+    }
+}
+
+task copyJars(type: Copy) {
+    // ./gradlew :tools:flink:copyJars
+    // https://discuss.gradle.org/t/how-can-i-gather-all-my-projects-dependencies-into-a-folder/7146/4
+    def implementationJars = configurations.implementation.dependencies.collect {
+        dep -> "${dep.name}-${dep.version}.jar"
+    }
+
+    def implementationClasspathOnly = configurations.runtimeClasspath.files.findAll {
+        file -> implementationJars.any { _ -> _ == file.name } ? file : null
+        // file -> implementationJars.any( file.name.&equals ) ? file : null
+    }
+
+    println "Implementation JARs: ${implementationJars}"
+    println "Implementation Classpath Only: ${implementationClasspathOnly}"
+
+    from implementationClasspathOnly
+    into "src/main/jib/opt/flink/lib"
+}
+
+// JAR 파일을 빌드하기 위한 task
+// tasks.named('jib').configure {
+tasks.matching { it.name.startsWith('jib') }.configureEach {
+    dependsOn 'build', 'copyJars'
+}

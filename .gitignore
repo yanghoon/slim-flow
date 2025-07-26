@@ -437,4 +437,5 @@ tools/**/.env
 !tools/*/*/.env
 
 # Flink Docker Compose
-tools/flink/lib/*
+tools/flink/**/lib/*
+tools/flink/src/*
