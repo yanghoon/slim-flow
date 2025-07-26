@@ -14,8 +14,11 @@ services:
     ports:
       - 8081:8081
     command: jobmanager
-    # volumes:
-    #   - ./conf/catalog:/opt/flink/conf/catalog
+    volumes:
+      # - ./conf/catalog:/opt/flink/conf/catalog
+      - ./lib/iceberg-flink-runtime-1.20-1.9.2.jar:/opt/flink/lib/iceberg-flink-runtime-1.20-1.9.2.jar
+      - ./lib/iceberg-aws-bundle-1.9.2.jar:/opt/flink/lib/iceberg-aws-bundle-1.9.2.jar
+      - ./lib/flink-s3-fs-hadoop-1.20.1.jar:/opt/flink/lib/lib/flink-s3-fs-hadoop-1.20.1.jar
     env_file:
       - .env.default
 
@@ -26,7 +29,13 @@ services:
     command: taskmanager
     scale: 1
     volumes:
-      - ./conf/catalog:/opt/flink/conf/catalog
+      # - ./conf/catalog:/opt/flink/conf/catalog
+      - ./lib/iceberg-flink-runtime-1.20-1.9.2.jar:/opt/flink/lib/iceberg-flink-runtime-1.20-1.9.2.jar
+      - ./lib/iceberg-aws-bundle-1.9.2.jar:/opt/flink/lib/iceberg-aws-bundle-1.9.2.jar
+      - ./lib/flink-s3-fs-hadoop-1.20.1.jar:/opt/flink/lib/lib/flink-s3-fs-hadoop-1.20.1.jar
+      - ./lib/hadoop-mapreduce-client-core-3.3.1.jar:/opt/flink/lib/hadoop-mapreduce-client-core-3.3.1.jar
+    env_file:
+      - .env.default
     environment:
       FLINK_PROPERTIES: |
         jobmanager.rpc.address: jobmanager
@@ -46,11 +55,10 @@ services:
       - ./conf/catalog:/opt/flink/conf/catalog
       - ./lib/iceberg-flink-runtime-1.20-1.9.2.jar:/opt/flink/lib/iceberg-flink-runtime-1.20-1.9.2.jar
       - ./lib/iceberg-aws-bundle-1.9.2.jar:/opt/flink/lib/iceberg-aws-bundle-1.9.2.jar
-      - ./lib/hadoop-common-3.3.1.jar:/opt/flink/lib/hadoop-common-3.3.1.jar
-      - ./lib/hadoop-hdfs-3.3.1.jar:/opt/flink/lib/hadoop-hdfs-3.3.1.jar
-      - ./lib/hadoop-hdfs-client-3.3.1.jar:/opt/flink/lib/hadoop-hdfs-client-3.3.1.jar
       - ./lib/flink-s3-fs-hadoop-1.20.1.jar:/opt/flink/lib/lib/flink-s3-fs-hadoop-1.20.1.jar
-      # - ./lib:/opt/flink/plugins/iceberg
+      - ./lib/hadoop-hdfs-client-3.3.1.jar:/opt/flink/lib/hadoop-hdfs-client-3.3.1.jar
+    env_file:
+      - .env.default
     environment:
       # https://nightlies.apache.org/flink/flink-docs-release-1.20/docs/dev/table/sql-gateway/overview/#starting-the-sql-gateway
       FLINK_PROPERTIES: |
@@ -59,14 +67,3 @@ services:
         sql-gateway.endpoint.rest.address: localhost
         table.catalog-store.kind: file
         table.catalog-store.file.path: file:///opt/flink/conf/catalog
-
-  # sql-client:
-  #   image: flink:1.20.2
-  #   command: bin/sql-client.sh
-  #   depends_on:
-  #     - jobmanager
-  #   environment:
-  #     - |
-  #       FLINK_PROPERTIES=
-  #       jobmanager.rpc.address: jobmanager
-  #       rest.address: jobmanager

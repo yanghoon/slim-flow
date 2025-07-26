@@ -8,24 +8,13 @@ uri: http://iceberg-rest:8181
 # uri: http://localhost:8181
 warehouse: s3://minio/warehouse
 
-# io-impl: org.apache.iceberg.aws.s3.S3FileIO
-# s3.endpoint: http://minio:9000
+# https://github.com/apache/iceberg/blob/main/aws/src/main/java/org/apache/iceberg/aws/s3/S3FileIO.java#L486-L502
+# https://github.com/apache/iceberg/blob/main/aws/src/main/java/org/apache/iceberg/aws/s3/S3FileIOProperties.java#L230-L258
+# https://github.com/apache/iceberg/blob/main/aws/src/main/java/org/apache/iceberg/aws/s3/S3FileIOProperties.java#L586
+io-impl: org.apache.iceberg.aws.s3.S3FileIO
+s3.endpoint: http://minio:9000
 # s3.access-key-id: minio
 # s3.secret-access-key: miniosecret
-# s3.path-style-access: true
+s3.path-style-access: true
 # client.region: us-east-1
 
-# rest-client.auth-type: oauth2
-# rest-client.oauth2.token-uri: https://your-auth-server/token
-# rest-client.oauth2.client-id: your-client-id
-# rest-client.oauth2.client-secret: your-client-secret
-# properties:
-#   s3.access-key: ${S3_ACCESS_KEY}
-#   s3.secret-key: ${S3_SECRET_KEY}
-#   s3.endpoint: ${S3_ENDPOINT}
-#   s3.endpoint.region: ap-northeast-2
-#   s3.path.style.access: true
-  # io-impl: org.apache.iceberg.aws.s3.S3FileIO
-  # aws.region: us-east-1
-  # aws.credentials.provider: default
-  # aws.credentials.profile-name: default
