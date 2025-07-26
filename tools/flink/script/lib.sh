@@ -6,7 +6,14 @@ ICEBERG_VERSION=1.9.2
 ICEBERG_FLINK_VERSION=${FLINK_VERSION}-${ICEBERG_VERSION}
 HADOOP_VERSION=3.3.1
 
-# mkdir -p lib && cd lib
+if [ -z "$1" ]; then
+  SCRIPT_DIR=$(dirname "$(readlink -f "$0")")
+  LIB_DIR=$SCRIPT_DIR/../lib
+else
+  LIB_DIR="$1"
+fi
+
+mkdir -p $LIB_DIR && cd $LIB_DIR
 
 # Iceberg Flink Dependencies
 curl -OL https://repo.maven.apache.org/maven2/org/apache/iceberg/iceberg-flink-runtime-${FLINK_VERSION}/${ICEBERG_VERSION}/iceberg-flink-runtime-${ICEBERG_FLINK_VERSION}.jar
@@ -18,6 +25,3 @@ curl -OL https://repo1.maven.org/maven2/org/apache/hadoop/hadoop-mapreduce-clien
 
 # Flink Plugins
 curl -OL https://repo1.maven.org/maven2/org/apache/flink/flink-s3-fs-hadoop/${FLINK_VERSION_FULL}/flink-s3-fs-hadoop-${FLINK_VERSION_FULL}.jar
-
-# Flink SQL JDBC Driver
-curl -OL https://repo.maven.apache.org/maven2/org/apache/flink/flink-sql-jdbc-driver-bundle/${FLINK_VERSION_FULL}/flink-sql-jdbc-driver-bundle-${FLINK_VERSION_FULL}.jar

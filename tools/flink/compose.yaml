@@ -10,30 +10,31 @@ include:
 
 services:
   jobmanager:
-    image: flink:1.20.2
+    build: .
+    image: flink:1.20.2-iceberg
     ports:
       - 8081:8081
     command: jobmanager
-    volumes:
-      # - ./conf/catalog:/opt/flink/conf/catalog
-      - ./lib/iceberg-flink-runtime-1.20-1.9.2.jar:/opt/flink/lib/iceberg-flink-runtime-1.20-1.9.2.jar
-      - ./lib/iceberg-aws-bundle-1.9.2.jar:/opt/flink/lib/iceberg-aws-bundle-1.9.2.jar
-      - ./lib/flink-s3-fs-hadoop-1.20.1.jar:/opt/flink/lib/lib/flink-s3-fs-hadoop-1.20.1.jar
+    # volumes:
+    #   # - ./conf/catalog:/opt/flink/conf/catalog
+    #   - ./lib/iceberg-flink-runtime-1.20-1.9.2.jar:/opt/flink/lib/iceberg-flink-runtime-1.20-1.9.2.jar
+    #   - ./lib/iceberg-aws-bundle-1.9.2.jar:/opt/flink/lib/iceberg-aws-bundle-1.9.2.jar
+    #   - ./lib/flink-s3-fs-hadoop-1.20.1.jar:/opt/flink/lib/lib/flink-s3-fs-hadoop-1.20.1.jar
     env_file:
       - .env.default
 
   taskmanager:
-    image: flink:1.20.2
+    image: flink:1.20.2-iceberg
     depends_on:
       - jobmanager
     command: taskmanager
     scale: 1
-    volumes:
-      # - ./conf/catalog:/opt/flink/conf/catalog
-      - ./lib/iceberg-flink-runtime-1.20-1.9.2.jar:/opt/flink/lib/iceberg-flink-runtime-1.20-1.9.2.jar
-      - ./lib/iceberg-aws-bundle-1.9.2.jar:/opt/flink/lib/iceberg-aws-bundle-1.9.2.jar
-      - ./lib/flink-s3-fs-hadoop-1.20.1.jar:/opt/flink/lib/lib/flink-s3-fs-hadoop-1.20.1.jar
-      - ./lib/hadoop-mapreduce-client-core-3.3.1.jar:/opt/flink/lib/hadoop-mapreduce-client-core-3.3.1.jar
+    # volumes:
+    #   # - ./conf/catalog:/opt/flink/conf/catalog
+    #   - ./lib/iceberg-flink-runtime-1.20-1.9.2.jar:/opt/flink/lib/iceberg-flink-runtime-1.20-1.9.2.jar
+    #   - ./lib/iceberg-aws-bundle-1.9.2.jar:/opt/flink/lib/iceberg-aws-bundle-1.9.2.jar
+    #   - ./lib/flink-s3-fs-hadoop-1.20.1.jar:/opt/flink/lib/lib/flink-s3-fs-hadoop-1.20.1.jar
+    #   - ./lib/hadoop-mapreduce-client-core-3.3.1.jar:/opt/flink/lib/hadoop-mapreduce-client-core-3.3.1.jar
     env_file:
       - .env.default
     environment:
@@ -45,7 +46,7 @@ services:
   sql-gateway:
     # docker compose up -d minio iceberg-rest jobmanager
     # docker compose up sql-gateway
-    image: flink:1.20.2
+    image: flink:1.20.2-iceberg
     command: bin/sql-gateway.sh start-foreground
     depends_on:
       - jobmanager
@@ -53,10 +54,10 @@ services:
       - 8083:8083
     volumes:
       - ./conf/catalog:/opt/flink/conf/catalog
-      - ./lib/iceberg-flink-runtime-1.20-1.9.2.jar:/opt/flink/lib/iceberg-flink-runtime-1.20-1.9.2.jar
-      - ./lib/iceberg-aws-bundle-1.9.2.jar:/opt/flink/lib/iceberg-aws-bundle-1.9.2.jar
-      - ./lib/flink-s3-fs-hadoop-1.20.1.jar:/opt/flink/lib/lib/flink-s3-fs-hadoop-1.20.1.jar
-      - ./lib/hadoop-hdfs-client-3.3.1.jar:/opt/flink/lib/hadoop-hdfs-client-3.3.1.jar
+      # - ./lib/iceberg-flink-runtime-1.20-1.9.2.jar:/opt/flink/lib/iceberg-flink-runtime-1.20-1.9.2.jar
+      # - ./lib/iceberg-aws-bundle-1.9.2.jar:/opt/flink/lib/iceberg-aws-bundle-1.9.2.jar
+      # - ./lib/flink-s3-fs-hadoop-1.20.1.jar:/opt/flink/lib/lib/flink-s3-fs-hadoop-1.20.1.jar
+      # - ./lib/hadoop-hdfs-client-3.3.1.jar:/opt/flink/lib/hadoop-hdfs-client-3.3.1.jar
     env_file:
       - .env.default
     environment:

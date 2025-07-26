@@ -438,4 +438,3 @@ tools/**/.env
 
 # Flink Docker Compose
 tools/flink/lib/*
-!tools/flink/lib/*.sh
