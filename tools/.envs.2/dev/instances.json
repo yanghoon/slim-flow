@@ -1,0 +1,5 @@
+[
+  { "name": "host1", "profile": "master" },
+  { "name": "host2", "profile": "worker" },
+  { "name": "host3", "profile": "worker" }
+]

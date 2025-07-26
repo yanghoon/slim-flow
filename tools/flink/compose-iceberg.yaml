@@ -35,6 +35,8 @@ services:
       - 5432:5432
     volumes:
       - metastore-db:/var/lib/postgresql
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "iceberg"]
 
 volumes:
   metastore-db:

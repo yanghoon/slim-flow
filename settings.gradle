@@ -1,0 +1,3 @@
+rootProject.name = 'slim-flow'
+
+include 'flink-jobs', 'tools:flink'

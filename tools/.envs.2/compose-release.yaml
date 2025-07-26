@@ -1,0 +1,24 @@
+services:
+  web:
+    profiles: &master
+      - master
+    env_file: &env_file
+      - default.env
+      - ${RELEASE:?}/.env
+    environment: &env
+      COMPOSE_FILE:  ''
+      COMPOSE_ENV_FILES: ''
+      RELEASE: ''
+
+  web-worker:
+    profiles:
+      - worker
+    image: alpine:latest
+    env_file: *env_file
+    environment: *env
+      # <<: *env
+  
+  db:
+    profiles: *master
+    env_file: *env_file
+    environment: *env

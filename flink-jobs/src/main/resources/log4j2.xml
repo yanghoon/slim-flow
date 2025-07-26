@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN">
+    <!-- https://nightlies.apache.org/flink/flink-docs-master/docs/deployment/advanced/logging/ -->
+
+    <!-- Appender Configuration -->
+    <Appenders>
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout pattern="%d{ISO8601} [%t] %-5p %c - %m%n"/>
+        </Console>
+    </Appenders>
+
+    <!-- Logger Configuration -->
+    <Loggers>
+        <!-- Root Logger Configuration -->
+        <Root level="error">
+            <AppenderRef ref="Console"/>
+        </Root>
+
+        <!-- Specific Logger Configuration -->
+        <Logger name="org.apache.flink.fs" level="info">
+            <AppenderRef ref="Console"/>
+        </Logger>
+
+        <Logger name="org.apache.hadoop.fs" level="info">
+            <AppenderRef ref="Console"/>
+        </Logger>
+
+        <Logger name="com.amazonaws" level="trace">
+            <AppenderRef ref="Console"/>
+        </Logger>
+        
+        <Logger name="org.apache.flink.streaming.api.environment.StreamExecutionEnvironment" level="debug">
+            <AppenderRef ref="Console"/>
+        </Logger>
+        
+        <Logger name="org.apache.flink.runtime.taskmanager.TaskManager" level="debug">
+            <AppenderRef ref="Console"/>
+        </Logger>
+
+        <Logger name="org.apache.flink.client.program.ClusterClient" level="error">
+            <AppenderRef ref="Console"/>
+        </Logger>
+    </Loggers>
+</Configuration>

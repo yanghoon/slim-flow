@@ -1,0 +1,10 @@
+services:
+  box:
+    image: alpine:latest
+    command:
+      - bash
+      - -c
+      - env | sort
+    env_file:
+      - production.env
+      - default.env

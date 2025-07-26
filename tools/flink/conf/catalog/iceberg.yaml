@@ -1,0 +1,20 @@
+# https://iceberg.apache.org/docs/nightly/flink-ddl/#create-catalog
+# https://iceberg.apache.org/docs/nightly/flink/#preparation-when-using-flink-sql-client
+# https://repo.maven.apache.org/maven2/org/apache/iceberg/iceberg-flink-runtime-1.20/1.9.2/
+
+type: iceberg
+catalog-type: rest
+uri: http://iceberg-rest:8181
+# uri: http://localhost:8181
+warehouse: s3://minio/warehouse
+
+# https://github.com/apache/iceberg/blob/main/aws/src/main/java/org/apache/iceberg/aws/s3/S3FileIO.java#L486-L502
+# https://github.com/apache/iceberg/blob/main/aws/src/main/java/org/apache/iceberg/aws/s3/S3FileIOProperties.java#L230-L258
+# https://github.com/apache/iceberg/blob/main/aws/src/main/java/org/apache/iceberg/aws/s3/S3FileIOProperties.java#L586
+io-impl: org.apache.iceberg.aws.s3.S3FileIO
+s3.endpoint: http://minio:9000
+# s3.access-key-id: minio
+# s3.secret-access-key: miniosecret
+s3.path-style-access: true
+# client.region: us-east-1
+

@@ -1,0 +1,11 @@
+# Iceberg REST Catalog 설정 예시
+iceberg.catalog-type: rest
+iceberg.catalog-impl: org.apache.iceberg.rest.RESTCatalog
+iceberg.uri: http://localhost:8181
+iceberg.warehouse: s3://your-bucket/warehouse
+
+# AWS S3 인증 및 endpoint (필요 시)
+s3.access-key: YOUR_ACCESS_KEY
+s3.secret-key: YOUR_SECRET_KEY
+s3.endpoint: https://maxio.com
+s3.path-style-access: true

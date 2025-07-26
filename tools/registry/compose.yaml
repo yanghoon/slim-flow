@@ -1,0 +1,23 @@
+
+services:
+  registry:
+    image: registry:3
+    environment:
+      - REGISTRY_STORAGE=s3
+      - REGISTRY_STORAGE_S3_ACCESSKEY=minio
+      - REGISTRY_STORAGE_S3_SECRETKEY=miniosecret
+      - REGISTRY_STORAGE_S3_REGIONENDPOINT=http://minio:9000
+      - REGISTRY_STORAGE_S3_BUCKET=images
+      - REGISTRY_STORAGE_S3_REGION=us-east-1
+      - REGISTRY_STORAGE_S3_FORCEPATHSTYLE=true
+      - REGISTRY_STORAGE_S3_SECURE=false
+    ports:
+      - 5000:5000
+
+  minio:
+    image: bitnami/minio:latest
+    environment:
+      - MINIO_DEFAULT_BUCKETS=images
+    ports:
+      - 9000:9000
+      - 9001:9001
