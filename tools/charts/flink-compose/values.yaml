@@ -16,3 +16,38 @@ jobmanager:
     ports:
       rpc: 6123
       http: 8081
+
+compose:
+  jobmanager:
+    enabled: true
+    environment:
+      FLINK_PROPERTIES: |
+        jobmanager.rpc.address: jobmanager
+        parallelism.default: 2
+        # table.catalog-store.kind: file
+        # table.catalog-store.file.path: file:///opt/flink/conf/catalog
+        env.log.level: ${ENV_LOG_LEVEL}
+
+  taskmanager:
+    enabled: true
+    environment:
+      FLINK_PROPERTIES: |
+        jobmanager.rpc.address: jobmanager
+        taskmanager.numberOfTaskSlots: 2
+        parallelism.default: 2
+
+  sqlgateway:
+    enabled: true
+    command: >-
+      bin/sql-gateway.sh start-foreground
+    containerPorts:
+      http: 8083
+    service:
+      ports:
+        http: 8083
+    environment:
+      FLINK_PROPERTIES: |
+        jobmanager.rpc.address: jobmanager
+        rest.address: jobmanager
+        rest.port: 8083
+        sql-gateway.port: 8083
