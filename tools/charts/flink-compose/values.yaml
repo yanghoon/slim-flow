@@ -1,0 +1,18 @@
+# Reference https://artifacthub.io/packages/helm/bitnami/flink/2.0.7?modal=values
+
+global:
+  imageRegistry:
+
+image:
+  registry: docker.io
+  repository: flink
+  tag: 1.20.2-iceberg
+
+jobmanager:
+  containerPorts:
+    rpc: 6123
+    http: 8081
+  service:
+    ports:
+      rpc: 6123
+      http: 8081
