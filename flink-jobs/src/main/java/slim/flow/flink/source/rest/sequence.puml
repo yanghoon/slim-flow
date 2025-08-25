@@ -1,0 +1,95 @@
+@startuml
+
+' sequenceDiagram
+' participant Client
+' participant JobManager
+' participant RestSourceEnumerator
+' participant TaskManager
+' participant RestSourceReader
+' participant RestSplitReader
+
+box Client Side
+    ' Client
+    participant Client
+end box
+box Cluster Coordinator
+    ' JobManager
+    ' RestSourceEnumerator
+    participant JobManager
+    participant RestSourceEnumerator
+end box
+box Cluster Worker
+    ' TaskManager
+    ' RestSourceReader
+    ' RestSplitReader
+    participant TaskManager
+    participant RestSourceReader
+    participant RestSplitReader
+end box
+
+title Flink RestSource Lifecycle
+
+Note over Client: Phase 1: Job Submission
+Client->>JobManager: env.execute(JobGraph with RestSource)
+
+Note over JobManager, RestSourceEnumerator: Phase 2: Job Initialization (JobManager)
+JobManager->>RestSourceEnumerator: createEnumerator(context)
+activate RestSourceEnumerator
+RestSourceEnumerator->>RestSourceEnumerator: start()
+RestSourceEnumerator->>RestSourceEnumerator: createInitialSplits()
+Note right of RestSourceEnumerator: Generates initial page splits
+deactivate RestSourceEnumerator
+
+Note over TaskManager, RestSourceReader: Phase 3: Task Execution (TaskManager)
+JobManager->>TaskManager: Deploy Task(SourceOperator)
+TaskManager->>RestSourceReader: createReader(context)
+activate RestSourceReader
+TaskManager->>RestSourceReader: start()
+RestSourceReader->>JobManager: context.sendSplitRequest()
+deactivate RestSourceReader
+
+Note over JobManager, RestSplitReader: Phase 4: Runtime Data Flow
+loop Data Processing Loop
+    JobManager->>RestSourceEnumerator: handleSplitRequest()
+    activate RestSourceEnumerator
+    RestSourceEnumerator->>RestSourceReader: context.assignSplit(split)
+    deactivate RestSourceEnumerator
+
+    activate RestSourceReader
+    RestSourceReader->>RestSplitReader: addSplits(split)
+    deactivate RestSourceReader
+
+    activate RestSplitReader
+    RestSplitReader->>RestSplitReader: fetch() -> apiClient.fetchPage()
+    Note right of RestSplitReader: Makes HTTP call
+    RestSplitReader-->>RestSourceReader: Returns records
+    deactivate RestSplitReader
+
+    activate RestSourceReader
+    loop For each record in page
+        RestSourceReader->>RestSourceReader: emitRecord(record, output)
+        Note right of RestSourceReader: Data sent to downstream
+    end
+    RestSourceReader->>RestSourceReader: onSplitFinished(splitId)
+    RestSourceReader->>JobManager: context.sendSourceEventToCoordinator(PageCompletedEvent)
+    deactivate RestSourceReader
+
+    JobManager->>RestSourceEnumerator: handleSourceEvent(event)
+    activate RestSourceEnumerator
+    alt Unbounded and has more data
+        RestSourceEnumerator->>RestSourceEnumerator: Create next page split
+    else Bounded or no more data
+        RestSourceEnumerator->>RestSourceReader: signalNoMoreSplits()
+    end
+    deactivate RestSourceEnumerator
+end
+
+Note over JobManager, RestSourceReader: (Periodic) Phase 5: Checkpointing
+JobManager->>RestSourceEnumerator: snapshotState()
+JobManager->>RestSourceReader: snapshotState()
+
+Note over JobManager, RestSourceReader: Phase 6: Shutdown
+JobManager->>RestSourceEnumerator: close()
+JobManager->>RestSourceReader: close()
+
+@enduml
