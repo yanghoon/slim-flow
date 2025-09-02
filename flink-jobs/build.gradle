@@ -99,7 +99,8 @@ dependencies {
     annotationProcessor "org.projectlombok:lombok:1.18.24"
 
     // Add test dependencies here.
-    // testCompile "junit:junit:4.12"
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.9.1'
+    testImplementation "org.apache.flink:flink-test-utils-junit:1.20.2"
 }
 // make compileOnly dependencies available for tests:
 sourceSets {
@@ -120,4 +121,8 @@ jar {
 
 shadowJar {
     configurations = [project.configurations.flinkShadowJar]
+}
+
+test {
+    useJUnitPlatform()
 }
