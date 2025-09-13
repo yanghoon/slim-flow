@@ -1,4 +1,4 @@
-package slim.flow.flink.source.common.enumerator;
+package slim.flow.flink.v1.source.common.enumerator;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,6 +19,8 @@ import slim.flow.flink.source.common.SimpleSplitEnumerator;
 public class FixedSplitEnumerator<SplitT extends SourceSplit> implements SimpleSplitEnumerator<SplitT, List<SplitT>> {
 
     private SplitEnumeratorContext<SplitT> enumContext;
+
+    @Builder.Default
     private List<SplitT> splits = new ArrayList<>();
 
     @Override

@@ -6,7 +6,7 @@ import java.io.IOException;
 
 import org.junit.Test;
 
-import slim.flow.flink.source.web.WebSplit;
+import slim.flow.flink.v1.source.web.WebSplit;
 
 public class WebSplitTests {
 

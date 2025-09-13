@@ -86,6 +86,9 @@ dependencies {
     implementation "org.apache.iceberg:iceberg-flink-runtime-1.20:${icebergVersion}"
     implementation "org.apache.iceberg:iceberg-aws-bundle:${icebergVersion}"
 
+    // Configuration
+    implementation "picocli:picocli:4.6.3"
+
     // --------------------------------------------------------------
     // Dependencies that should be part of the shadow jar, e.g.
     // connectors. These must be in the flinkShadowJar configuration!
