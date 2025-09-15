@@ -20,6 +20,7 @@ public class WebSocketReader implements SimpleSourceReader<String, WebSocketSpli
 
     private List<WebSocketSplit> splits = new ArrayList<>();
     private CompletableFuture<Void> available = new CompletableFuture<>();
+    private CompletableFuture<Void> blocking = new CompletableFuture<>();
 
     // private WebSocketClient client = new WebSocketClient();
 
@@ -27,6 +28,8 @@ public class WebSocketReader implements SimpleSourceReader<String, WebSocketSpli
     public void addSplits(List<WebSocketSplit> splits) {
         log.info("Add splits: {}", splits);
         this.splits.addAll(splits);
+
+        available.complete(null);
     }
 
     @Override
@@ -37,11 +40,14 @@ public class WebSocketReader implements SimpleSourceReader<String, WebSocketSpli
         //     return InputStatus.NOTHING_AVAILABLE;
         // }
 
-        // var split = splits.get(0);
-        // client.connect(split.getUrl(), split.getQuery(), message -> {
-        //     output.collect(message);
-        //     readerContext.signalAvailable();
-        // });
+        if (available.isDone()) {
+            var split = splits.get(0);
+            client.connect(split.getUrl(), split.getQuery(), message -> {
+                output.collect(message);
+                // split.getQuery().put("start", message.get("nano_time"));
+                // readerContext.signalAvailable();
+            });
+        }
 
         return InputStatus.NOTHING_AVAILABLE;
     }
@@ -49,7 +55,12 @@ public class WebSocketReader implements SimpleSourceReader<String, WebSocketSpli
     @Override
     public CompletableFuture<Void> isAvailable() {
         log.debug("available: {}", available.toString());
-        return available;
+        return !availablei.isDone() : available : blocking;
+    }
+
+    public List<WebSocketSplit> snapshotState(long checkpointId) {
+        //TODO: log.info("Checkpoint: {}, State: {}", checkpointId, splits);
+        return splits;
     }
     
     public static interface Client {

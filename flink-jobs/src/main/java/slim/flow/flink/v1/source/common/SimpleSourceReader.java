@@ -25,4 +25,5 @@ public interface SimpleSourceReader<T, SplitT extends SourceSplit> extends Sourc
 
     @Override
     default List<SplitT> snapshotState(long checkpointId) { return null; }
+
 }

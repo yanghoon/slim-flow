@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.net.URLEncoder;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicLong;
@@ -56,12 +57,23 @@ public class WebSplit implements SourceSplit, Serializable {
         var sb = new StringBuilder();
         sb.append("?");
         queryMap.forEach((k, v) -> {
-            sb.append(k).append("=").append(v).append("&");
+            encoded = URLEncoder.encode(v, "UTF-8");
+            sb.append(k).append("=").append(encoded).append("&");
         });
 
         sb.deleteCharAt(sb.length() - 1);
 
         return sb.toString();
+    }
+
+    public String[] headers() {
+        var result = new String[headerMap.size() * 2];
+        var i = 0;
+        for (var entry : headerMap.entrySet()) {
+            result[i++] = entry.getKey();
+            result[i++] = entry.getValue();
+        }
+        return result;
     }
 
     /**
