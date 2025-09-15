@@ -57,16 +57,18 @@ public class WebPipelineJob {
         // Sink
         // var rowDataStream = stream.
         stream.print();
+
+        env.execute("Web Pipeline Job");
     }
 
-    private TableLoader tableLoader(IcebergOpts icebergOpts) {
-        var flienkConfig = flinkConfig(icebergOpts);
-        var catalog = CatalogLoader.rest("iceberg", new Configuration(), flienkConfig);
-        return TableLoader.fromCatalog(catalog, TableIdentifier.of("default", "test"));
-    }
-
-    private Map<String, String> flinkConfig(IcebergOpts icebergOpts) {
-        return Map.of();
+    private TableLoader tableLoader(IcebergOpts icebergOpts, StreamExecutionEnvironment env) {
+        var flinkConfig = icebergOpts.config();
+        var catalog = CatalogDescripter.of("iceberg", flinkConfig);
+        tableEnv.createCatalog("iceberg", catalog);
+        tableEnv.useCatalog("iceberg");
+        
+        var table = flinkConfig.getString("table", "default.test");
+        return tableEnv.loadTable(TableIdentifier.parse(table));
     }
 
     private static RowData rowData(int id, String name, int age) {
