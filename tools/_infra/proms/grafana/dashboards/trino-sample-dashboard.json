@@ -1,0 +1,45 @@
+{
+  "id": null,
+  "title": "Trino SQL Sample Dashboard",
+  "tags": ["trino", "sample"],
+  "timezone": "browser",
+  "schemaVersion": 27,
+  "version": 1,
+  "panels": [
+    {
+      "type": "graph",
+      "title": "Queries per Minute",
+      "datasource": "Trino",
+      "targets": [
+        {
+          "refId": "A",
+          "type": "table",
+          "rawSql": "SELECT date_trunc('minute', ts) AS time, count(*) AS value FROM system.runtime.queries WHERE state='FINISHED' GROUP BY 1 ORDER BY 1",
+          "format": "time_series"
+        }
+      ],
+      "xaxis": {
+        "mode": "time"
+      },
+      "yaxes": [
+        {
+          "format": "short",
+          "label": "QPM"
+        }
+      ]
+    },
+    {
+      "type": "table",
+      "title": "Top 5 Slowest Queries",
+      "datasource": "Trino",
+      "targets": [
+        {
+          "refId": "B",
+          "type": "table",
+          "rawSql": "SELECT query_id, user, state, round(elapsed_time/1000,2) AS elapsed_seconds FROM system.runtime.queries ORDER BY elapsed_time DESC LIMIT 5",
+          "format": "table"
+        }
+      ]
+    }
+  ]
+}

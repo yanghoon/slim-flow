@@ -1,0 +1,6 @@
+
+include:
+  # - proms/compose.yaml
+  # - trino/compose.yaml
+  - app/compose.yaml
+  - fluent-bit/compose.yaml

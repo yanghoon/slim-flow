@@ -1,0 +1,10 @@
+
+services:
+  httpd:
+    image: httpd:2.4.65
+    container_name: httpd
+    ports:
+      - 8000:80
+    volumes:
+      - ../_data/httpd/html:/usr/local/apache2/htdocs:ro
+    restart: unless-stopped

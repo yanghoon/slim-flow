@@ -1,0 +1,17 @@
+
+services:
+  fluent-bit:
+    image: grafana/fluent-bit-plugin-loki:3.5
+    # container_name: fluent-bit
+    volumes:
+      # Docker socket for metadata (macOS)
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      # Container logs (macOS default path)
+      - /var/lib/docker/containers:/var/lib/docker/containers:ro
+      # Fluent Bit config
+      - ./config/fluent-bit.conf:/fluent-bit/etc/fluent-bit.conf:ro
+      # - ./fluent-bit/parsers.conf:/fluent-bit/etc/parsers.conf:ro
+    # ports:
+    #   - "2020:2020"   # Fluent Bit HTTP server (metrics/status)
+    #   - "2021:2021"   # Fluent Bit API (optional)
+    # restart: unless-stopped

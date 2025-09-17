@@ -1,0 +1,12 @@
+
+services:
+  trino:
+    image: trinodb/trino:476
+    # container_name: simple-trino
+    ports:
+      - 8080:8080
+    # volumes:
+    #   - ./config:/etc/trino:ro
+    environment:
+      JAVA_TOOL_OPTIONS: "-Xmx2G"
+    # restart: unless-stopped
